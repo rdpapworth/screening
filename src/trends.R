@@ -1,13 +1,18 @@
 library(gtrendsR)
 library(ggplot2)
+library(zoo)
 
 #c("prostate cancer", "bowel cancer",  "cervical cancer")
 
-t <- gtrends(c("breast cancer",  "cervical cancer", "bowel cancer"), geo=c("GB"), time="2012-01-01 2016-12-31")
+#t <- gtrends(c("breast cancer",  "cervical cancer", "bowel cancer"), geo=c("GB"), time="2012-01-01 2016-12-31")
 
 t <- gtrends(c( "breast cancer"), geo=c("GB"), time="2012-01-01 2016-12-31")
 
 plot(t)
+
+z <- zoo(x=t$interest_over_time$hits, order.by = t$interest_over_time$date)
+
+plot(z)
 
 # drop 16/03/2014 - weird peak in all searches
 t$interest_over_time <- t$interest_over_time[t$interest_over_time$hits != 100,]
